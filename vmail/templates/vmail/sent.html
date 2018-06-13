@@ -1,0 +1,78 @@
+{% extends 'vmail/layouts.html' %}
+{% block nav %}
+{% if l %}
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                    {% load static %}
+
+                    <img src={% static "vmail/vmail_logo.png" %}  alt="Logo" style="width:40px;">
+                  </a>
+        <a class="navbar-brand" href="/vmail/user/{{users.id}}"><b>VMAIL</b></a>
+      </div>
+      <ul class="nav navbar-nav">    
+
+                <li><a href="#">About Us</a></li>
+            
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+            <li></li>
+            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span style="color:black;">  {{users.user_name}}</span> <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/vmail/user/{{users.id}}">Mail Board</a></lti>
+                  <li><a  href="/vmail/index/{{users.id}}">Log Out</a></li>
+                  
+                </ul>
+              </li>
+        </ul>
+    </div>
+  </nav>
+  {% endif %}
+  {%endblock %} 
+{% block content %}
+{% if l %}
+<div class="row">
+    <div class="col-sm-2">
+        <br/>
+        <div class="alert alert-success">
+                <strong >WELCOME</strong><br/> <span style="color:red;">{{users.user_name}}</span>
+              </div>
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <a class="btn btn-secondary" href="/vmail/compose/{{users.id}}">Compose</a>
+            </div>
+            <br/><br/>
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <a class="btn btn-secondary"  href="/vmail/index/{{users.id}}">Log  out</a>
+            </div>
+    </div>
+    <div class="col-sm-10">
+            <div class="card">
+                    {% if mails %}
+                    <div class="alert alert-warning">
+                            <strong><b>Sent Mails </b>:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::</strong> 
+                          </div>
+                    <ul class="collection">
+                        {% for mail in mails %}
+                            <li class="collection-item" style="background-color:aliceblue;border-left:5px solid green;">
+                                <a href="/vmail/details_sent/{{mail.id}}/{{users.id}}" style="color:black;">{{mail.title}}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                        <h5 style="color:red;border-left:3px solid black;background-color:beige;padding:30px;">You Have Not Sent Any Mails !!!!! </h5>
+                    {% endif %}
+                    
+    </div>
+    <a href="/vmail/user/{{users.id}}" class="btn">Go Back</a> 
+</div> 
+{% else %}
+  <div class="container-fluid">
+        <div class="alert alert-warning">
+        <b style="color:red;">Please Login To Continue!!</b>
+       </div>
+       <a class="btn btn-secondary" href="/vmail/logins">Log In</a>
+    </div>
+
+{% endif %}
+{% endblock %}
